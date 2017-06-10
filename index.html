@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>首页</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="shortcut icon" href="favicon.ico" />
+<!-- <link rel="bookmark" href="favicon.ico" type="image/x-icon"　/> -->
+<link href="css/allcss.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link href="css/font-awesome.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 头部 ：开始 -->
+    <header>
+        <div class="container">
+            <h1 class="k_logo"><span><img src="images/k_1.png"alt=""></span></h1>
+            <ul class="nav_userInfo">
+                 <li><a href="">登录</a></li>
+                 <li><a href="">注册</a></li>
+                 <li class="cart">
+                    <a href="cart.html"><i class="fa fa-shopping-cart"></i>购物车(<span class="allnum">0</span>)</a>
+                    <div class="down_cart">
+                        <div class="empty">
+                          <i class="fa fa-shopping-cart"></i>
+                          <h3>购物车为空</h3>
+                          <p>您还没有选购任何商品，现在前往商城选购吧!</p>
+                        </div>
+                        <div class="n_empty">
+                            <ol>
+                            </ol>
+                            <div class="allorder">
+                                <p>共<span class="allnum">2</span>件商品</p>
+                                <samp>
+                                    合计:<span class="fuh">￥</span>
+                                    <span class="allprice">999</span>
+                                </samp>
+                                <a href="cart.html">去购物车</a>
+                            </div>
+                       </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav_list">
+                <li class="cur"><a href="index.html">在线商城</a></li>
+                <li><a href="">搜索</a></li>
+                <li><a href="">商品？</a></li>
+                <li><a href="">反馈</a></li>
+                <li><a href="">关于我们</a></li>
+            </ul>
+      </div>
+    </header>
+    <!-- 头部 ：结束 -->
+    <!-- 导航 ：开始 -->
+    <div class="nav_sy">
+        <div class="container">
+        <ul>
+            <li class="cur"><a href="#">精选</a></li>
+            <li><a href="">手机</a></li>
+            <li><a href="">"足迹系列"手感膜</a></li>
+            <li><a href="">官方配件</a></li>
+            <li><a href="">周边产品</a></li>
+            <li><a href="">第三方配件</a></li>
+            <li><a href="">全部商品</a></li>
+            <li><a href="">服务</a></li>
+        </ul>
+       </div>
+    </div>
+    <!-- 导航 ：结束 -->
+    <!-- banner:开始 -->
+    <div class="banner container">
+    	<div class="cover">
+    		<ul class="ppt">
+               <li class="cur">1</li>      
+               <li>2</li>      
+               <li>3</li>      
+               <li>4</li>      
+            </ul>
+            <ol class="indes">
+                <li class="cur"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+    	</div>
+         <a class="arrow prev"href="javascript:;"><i class="fa fa-angle-left"></i></a>
+         <a class="arrow next"href="javascript:;"><i class="fa fa-angle-right"></i></a>
+    </div>
+   <!-- banner:结束  -->
+   <!-- 内容区开始 -->
+   <div class="snacks container">
+       <!-- <h3>李玉刚</h3> -->
+       <ul>
+           <li class="rainbow_1">     
+            <a href="product_xq.html" class="thumb"><img src="images/snack_1.png"alt=""></a>
+            <h4>智能手表</h4>
+            <p class="desc">因为刚好遇见你</p>
+            <p class="price">149元</p>
+           </li>
+           <li class="rainbow_2">     
+            <a href="product_xq.html" class="thumb"><img src="images/snack_2.jpg"alt=""></a>
+            <h4>智能手表</h4>
+            <p class="desc">因为刚好遇见你</p>
+            <p class="price">149元</p>
+           </li>
+           <li class="rainbow_3">     
+            <a href="product_xq.html" class="thumb"><img src="images/snack_3.png"alt=""></a>
+            <h4>智能手表</h4>
+            <p class="desc">因为刚好遇见你</p>
+            <p class="price">149元</p>
+           </li>
+           <li class="rainbow_4">     
+            <a href="product_xq.html" class="thumb"><img src="images/snack_4.jpg"alt=""></a>
+            <h4>智能手表</h4>
+            <p class="desc">因为刚好遇见你</p>
+            <p class="price">149元</p>
+           </li>
+           <li class="rainbow_5">     
+            <a href="product_xq.html" class="thumb"><img src="images/snack_5.png"alt=""></a>
+            <h4>智能手表</h4>
+            <p class="desc">因为刚好遇见你</p>
+            <p class="price">149元</p>
+           </li>
+       </ul>
+   </div>
+   <!-- 脚部：开始 -->
+     <div class="footer">
+    <div class="container">
+         巨大的脚部
+     </div>
+   </div>
+    <!-- 脚部：结束 -->
+</body>
+</html>
+<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/alljs.js"></script>
+<script>
+// 幻灯片轮播效果
+function ppt(parent,ul,ol,pn,ms){
+    var cur_index=0;
+    var time;
+    var timsms= ms||3e3;
+    if(!pn) pn={};
+
+        $(ul).find("li").not(":first-of-type").hide();
+        function next(){
+            cur_index=$(ul).find(".cur").index(); 
+            cur_index=cur_index==$(ul).find("li").length-1?0:cur_index+1;
+        }
+        function prev(){
+            cur_index=$(ul).find(".cur").index(); 
+            cur_index=cur_index==0?$(ul).find("li").length-1:cur_index-1;
+        }
+        function Togglefade(){
+            var ul_li=$(ul).find("li");
+            var ul_cur=$(ul).find(".cur");
+            var ol_li=$(ol).find("li");
+            var ol_cur=$(ol).find(".cur");
+            ul_cur.fadeOut().removeClass('cur');
+            ul_li.eq(cur_index).fadeIn().addClass('cur');
+            ol_cur.removeClass('cur');
+            ol_li.eq(cur_index).addClass('cur');
+        }
+        function play(){
+            time=setInterval(function(){
+                next();
+                Togglefade();
+             },timsms);
+        }
+        function stop(){
+             clearInterval(time);
+        }
+        function indes(){
+            $(ol).find("li").click(function(event) {
+                 if(cur_index==$(this).index()) return;
+                 stop();
+                 cur_index=$(this).index();
+                 Togglefade();
+                 play();
+            });
+        }
+        // 如果有索引
+        if(ol)indes();
+        // 鼠标进入暂停轮播
+        $(ul).on('mouseenter', function(event) {
+            stop();
+        });
+        // 鼠标移出开始轮播
+        $(ul).on('mouseleave', function(event) {
+            play();
+        });
+        function  pns(){
+            $(parent).find(pn['prev']).click(function(event) {
+                     stop();
+                     prev();
+                     Togglefade();
+                     play();
+            });
+            $(parent).find(pn['next']).click(function(event) {
+                  stop();
+                  next();
+                 Togglefade();
+                 play();
+
+            });
+        }
+        pns();
+        play();
+}
+ppt(".banner",".ppt",".indes",{
+    prev:".prev",
+    next:'.next'
+});
+</script>

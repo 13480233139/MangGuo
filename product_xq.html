@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>商品详情</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="css/allcss.css" rel="stylesheet">
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/product_xq.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 头部 ：开始 -->
+    <header>
+    	<div class="container">
+    		<h1 class="k_logo"><span><img src="images/k_1.png"alt=""></span></h1>
+    		<ul class="nav_userInfo">
+    			 <li><a href="">登录</a></li>
+    			 <li><a href="">注册</a></li>
+    			 <li class="cart">
+                    <a href="cart.html"><i class="fa fa-shopping-cart"></i>购物车(<span class="allnum">0</span>)</a>
+                    <div class="down_cart">
+                        <div class="empty">
+                          <i class="fa fa-shopping-cart"></i>
+                          <h3>购物车为空</h3>
+                          <p>您还没有选购任何商品，现在前往商城选购吧!</p>
+                        </div>
+                        <div class="n_empty">
+                            <ol>
+                            </ol>
+                            <div class="allorder">
+                                <p>共<span class="allnum">2</span>件商品</p>
+                                <samp>
+                                    合计:<span class="fuh">￥</span>
+                                    <span class="allprice">999</span>
+                                </samp>
+                                <a href="cart.html">去购物车</a>
+                            </div>
+                       </div>
+                    </div>
+                </li>
+    		</ul>
+    		<ul class="nav_list">
+    			<li><a href="index.html">在线商城</a></li>
+    			<li><a href="">搜索</a></li>
+    			<li><a href="">商品？</a></li>
+    			<li><a href="">反馈</a></li>
+    			<li><a href="">关于我们</a></li>
+    		</ul>
+      </div>
+    </header>
+    <!-- 头部 ：结束 -->
+    <!-- 导航 ：开始 -->
+    <div class="nav_sy">
+        <div class="container">
+        <ul>
+            <li class="cur"><a href="#">精选</a></li>
+            <li><a href="">内衣</a></li>
+            <li><a href="">球鞋</a></li>
+            <li><a href="">动物世界</a></li>
+            <li><a href="">简单爱</a></li>
+            <li><a href="">全部商品</a></li>
+        </ul>
+       </div>
+    </div>
+    <!-- 导航 ：结束 -->
+    <!-- 商品详情 ：开始-->
+    <div class="store-content container">
+    	<ul class="small_img">
+    		<li class="cur"><img src="images/snack_1.png" alt=""></li>
+    		<li><img src="images/snack_2.jpg" alt=""></li>
+    		<li><img src="images/snack_3.png" alt=""></li>
+    		<li><img src="images/snack_4.jpg" alt=""></li>
+    		<li><img src="images/snack_5.png" alt=""></li>
+    	</ul>
+    	<div class="thumb">
+    		<img src="images/snack_1.png" alt="">
+    	</div>
+    	<div class="xq_text">
+            <!-- 商品名字 -->
+    		<div class="sku_title">
+	    		<h4>FIIL Diva 智能蓝牙无线降噪手表</h4>
+           <input type="hidden" class="shop_id" value="1">
+	    		<h5>手势触控、智能启停</h5>
+	    		<span><em>￥</em><i class="sku_price">999</i></span>
+    	    </div>
+    	    <div class="sku_list">
+                <!-- 商品颜色及数量 -->
+    	    	<div class="sku_color">
+    	    		<span class="span_name">颜色</span>
+    	    		<ul>
+    	    			<li class="cur" value="1">乳液白</li>
+    	    		    <li value="2">耀石黑</li>
+    	    	    </ul>
+    	    	</div>
+                <div class="sku_color">
+                    <span class="span_name">数量</span>
+                    <span class="down"></span>
+                    <input type="tel" class="num" value="1">
+                    <span class="up"></span>
+                </div>  
+    	    </div>
+            <div class="btn">
+                <a href="javascript:;" class="add_cart">加入购物车</a>
+                <a href="" class="shopping">现在购买</a>
+            </div>
+            <p class="p">* 7 天无理由退货，15 天免费换货，满 150 元免运费。</p>
+    	</div>
+    </div>
+    <!-- 商品详情 ：结束-->
+    <!-- 脚部：开始 -->
+     <div class="footer">
+    <div class="container">
+         巨大的脚部
+     </div>
+   </div>
+    <!-- 脚部：结束 -->
+</body>
+</html>
+<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/alljs.js"></script>
+<script> 
+$(document).ready(function() {
+    
+
+// 商品图片
+   function    Qieimg(){
+	$(".small_img li").click(function(event) {
+		$(".small_img .cur").removeClass('cur');
+		$(this).addClass('cur');
+		var img_src=$(this).find("img").attr("src");
+		$('.thumb img').fadeOut(function() {
+			$(this).attr('src',img_src).fadeIn();
+		});
+	});
+}
+Qieimg();
+    // 商品数量的添加和减少
+    function  ShopNumber(){
+      $('.down').click(function(event) {
+          var n=+$(this).siblings(".num").val();
+          if(n==1) return;
+          $(".num").val(n-1);
+      });
+      $('.up').click(function(event) {
+          var n=+$(this).siblings(".num").val();
+          $(".num").val(n+1);
+      });
+    }
+    ShopNumber();
+    // 颜色切换
+    function  Qieshopcolor(){
+       $(".sku_color li").click(function(event) {
+           $(".sku_color .cur").removeClass('cur');
+           $(this).addClass('cur');
+       });
+     }
+     Qieshopcolor();
+    // 添加购物车信息
+      $(".add_cart").click(function(event) {
+          var shop_name=$('.sku_title h4').text(); //商品名字
+          var shop_color=$(".sku_color li.cur").text();  //商品颜色
+          var shop_num=$(".num").val();  //商品数量
+          var shop_price=$(".sku_title .sku_price").text();  //商品价格
+          var shop_sku_id=$(".sku_color li.cur").val();//商品的颜色id
+          var shop_id=$(".shop_id").val();
+          var shop_img=$(".thumb img").attr("src");
+          // console.log(shop_name,shop_color,shop_num,shop_price);
+          var shop_xq={
+            shop_name:shop_name,
+            shop_id:shop_id,
+            shop_sku_id:shop_sku_id,
+            shop_color:shop_color,
+            shop_num:shop_num,
+            shop_price:shop_price,
+            shop_img:shop_img
+          }
+          addshop(shop_xq);
+      });
+});
+</script>

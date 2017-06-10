@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>我的购物车</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="css/allcss.css" rel="stylesheet">
+<link href="css/cart.css" rel="stylesheet">
+<link href="css/font-awesome.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 头部 ：开始 -->
+    <header>
+    	<div class="container">
+    		<h1 class="k_logo"><span><img src="images/k_1.png"alt=""></span></h1>
+    		<ul class="nav_userInfo">
+    			 <li><a href="">登录</a></li>
+    			 <li><a href="">注册</a></li>
+    		</ul>
+    		<ul class="nav_list">
+    			<li><a href="index.html">在线商城</a></li>
+    			<li><a href="">搜索</a></li>
+    			<li><a href="">商品？</a></li>
+    			<li><a href="">反馈</a></li>
+    			<li><a href="">关于我们</a></li>
+    		</ul>
+      </div>
+    </header>
+    <!-- 头部 ：结束 -->
+    <!-- 购物车详情：开始 -->
+   <div class="cart_content container">
+      	<div class="cart_top">购物清单</div>
+        <div class="no_shop">
+              <p>您的购物车中还没有商品</p>
+              <a href="product_xq.html">现在选购</a>
+        </div>
+        <div class="yes_shop">
+      	<div class="cart_table">
+      		商品信息
+      		<span class="table_operation">操作</span>
+      		<span class="table_subtotal">小计</span>
+      		<span class="table_num">数量</span>
+      		<span class="table_price">单价</span>
+      	</div>
+      	<!-- 商品列表 -->
+        <div class="item_li"></div>
+      	<div class="cart_bottom">
+      		<div class="car_bottom_left">
+      			<div class="check_all">
+      				<span></span>全选
+      			</div>
+      			<div class="delet_item" disabled>删除选中的商品</div>
+      		</div>
+      		<div class="car_bottom_right">
+              <div class="shoping_num">
+                <h4>已选择<i>2</i>件商品</h4>
+                <h5>共计<span>2</span>件商品</h5>
+              </div>
+              <div class="shoping_price">
+                <h4>应付总额：<i>￥<span>2222</span></i></h4>
+                <h5>应付总额不含运费</h5>
+              </div>
+              <a href="">现在结算</a>
+          </div>
+      	</div>
+        </div>
+   </div>
+    <!-- 购物车详情：结束 -->
+     <!-- 脚部：开始 -->
+     <div class="footer">
+    <div class="container">
+         巨大的脚部
+     </div>
+   </div>
+
+    <!-- 脚部：结束 -->
+</body>
+</html>
+<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/alljs.js"></script>
+<script>
+$(document).ready(function() {
+  function   Getshop(){
+	// 商品数量的添加和减少
+    function  ShopNumber(){
+      $('.down').click(function(event) {
+        var obj=$(this).siblings(".num");
+          var n=+obj.val();
+          if(n==1) return;
+          obj.val(n-1);
+          tabel_price();
+          shop_num();
+          check_num();
+      });
+      $('.up').click(function(event){
+          var obj=$(this).siblings(".num");
+          var n=+obj.val();
+          obj.val(n+1);
+        tabel_price();
+          shop_num();
+          check_num();
+      });
+    }
+    ShopNumber();
+    // 商品总数量的循环
+    function   shop_num(){
+      var  allnum=0;
+             $(".num").each(function(index, el) {
+                     allnum+=+$(this).val();
+             });
+        $(".shoping_num h5 span").text(allnum);
+    }
+    shop_num();
+    // 选择的商品数量以及价格循环
+      function  check_num(){
+           var allnum=0;
+           var allprice=0;
+                $(".cart_item .checked").each(function(index, el) {         
+                         allnum+=+$(this).parent().find(".num").val();
+                         allprice+=+$(this).parent().find(".subtabel span").text();
+                });
+        $(".shoping_num h4 i").text(allnum);
+        $(".shoping_price h4 i span").text(allprice);
+      }
+      check_num();
+      //每行商品的总价
+        function tabel_price(){
+               $(".cart_item").each(function(index, el) {
+                        var this_num=+$(this).find('.num').val();
+                          this_all_price=this_num*$(this).find('.price span').text();
+                         $(this).find(".subtabel span").text(this_all_price);
+               });
+        }
+        tabel_price();
+    // 点击选择或全选
+   function   check(){
+       // 选择一个
+      $(".check_item").click(function(event) {
+      	$(this).toggleClass('checked');
+      	var item_num=$('.cart_item').length;
+      	var checked_num=$('.item_li').find('.checked').length;
+          if(checked_num>0){
+            $('.delet_item').addClass('pointer');
+          }else{
+            $(".delet_item").removeClass('pointer');
+          }
+          	if(item_num==checked_num){
+                 $(".check_all span").addClass('checked');
+          	}else{
+               $(".check_all span").removeClass('checked');
+            }
+          check_num();
+
+      });
+      // 点击全选
+      $(".check_all span").click(function(event) {
+        	$(this).toggleClass('checked');
+          if($(".check_all ").find(".checked").length==0){
+             $(".check_item").removeClass('checked');
+             $(".delet_item").removeClass('pointer');
+          }else{
+            $('.check_item').addClass('checked');
+            $('.delet_item').addClass('pointer');
+          }
+          check_num();
+      });  
+   }
+   check();
+        // 删除商品
+      function  delet_item_shop(){
+        // 删除选中的商品
+            $(".delet_item").click(function(event) {
+              console.log("进来了");
+                $('.cart_item').each(function(index, el) {
+                     if($(this).find(".checked").length>0){
+                          var shop_id=$(this).parent().find(".shop_id").val();
+                         var shop_sku_id=$(this).parent().find(".shop_sku_id").val();
+                         deletShop(shop_id,shop_sku_id);
+                         $(this).fadeOut(function(){
+                            $(this).remove();
+                         if($(".cart_item").length==0){
+                               $(".no_shop").show();
+                               $(".yes_shop").hide();
+                             }
+                         });
+                     }
+                });
+            });
+        //点击删除按钮删除商品
+        $(".item_close").click(function(event) {
+                var shop_id=$(this).find(".shop_id").val();
+                var shop_sku_id=$(this).find(".shop_sku_id").val();
+                console.log(shop_id,shop_sku_id);
+                deletShop(shop_id,shop_sku_id);
+                $(this).parents(".cart_item").fadeOut(function(){
+                            $(this).remove();
+                if($(".cart_item").length==0){
+                       $(".no_shop").show();
+                       $(".yes_shop").hide();
+                     }
+                         });
+
+        });
+      } 
+      delet_item_shop();
+}
+   // 读取商品列表
+     function GetItemLi(){
+        var shop=getlocalStorage("shop");
+          if(shop.length>0){
+             $(".yes_shop").show();
+               $(".no_shop").hide();
+               var arr=[];
+               for(var n=0;n<shop.length;n++){
+                  arr.push('<div class="cart_item">'
+                  +'<span class="check_item"></span>'
+                  +'<div class="item_list">'
+                  + '<div class="item_img">'
+                  +'<img src="'+shop[n]["shop_img"]+'" alt="">'
+                  +'<a href=""></a></div>'
+                  +'<div class="item_left">'
+                  +'<div class="item_name">'
+                  +'<a href="product_xq.html">'+shop[n]["shop_name"]+'</a>'
+                  + '<span>'+shop[n]["shop_color"]+'</span>'
+                  +'</div>'
+                  +'</div>'
+                  +'<div class="item_right">'
+                  +'<div class="price">¥ <span>'+shop[n]["shop_price"]+'</span></div>'
+                  +'<div class="item_num">'
+                  +'<span class="down"></span>'
+                    +'<input type="tel" class="num" value="'+shop[n]["shop_num"]+'">'
+                    +'<span class="up"></span>' 
+                  +'</div>'
+                  +'<div class="subtabel">¥ <span></span></div>'
+                  +'<div class="item_close"><div class="close">x</div>'
+                  +'<input type="hidden" class="shop_id" value="'+shop[n]["shop_id"]+'">'
+                  +'<input type="hidden" class="shop_sku_id" value="'+shop[n]["shop_sku_id"]+'">'
+                  +'</div>'
+                  +'</div>'
+                  +'</div>'
+                  +'</div>')
+               }
+              $(".item_li").html(arr.join('')); 
+              Getshop();
+        }else{
+          $(".no_shop").show();
+          $(".yes_shop").hide();
+        }
+     }
+     GetItemLi();
+});
+</script>
