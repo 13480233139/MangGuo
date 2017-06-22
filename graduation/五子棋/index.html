@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>五子棋</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="css/fine.css" rel="stylesheet">
+</head>
+<body>
+    <div class="all">
+        <div class="cont"><div class="start">重新开始</div></div>
+      <div class="content">
+      </div>
+      <div class="bac pla"></div>
+      <div class="whi pla"></div>
+</div>
+</body>
+</html>
+<script src="js/jquery-2.0.2.min.js"></script>
+<script>
+$(".start").click(function(event) {
+    start(state);
+});
+// 地图
+var craet=[];
+var player=1;
+var win=false;
+// 地图以及先后手
+var state={
+    "h":"15",
+    "v":"15",
+    "player":1
+}
+start(state);
+$("body").on("click",".ge",function(event) {
+    var index=$(this).index();
+    var v=parseInt(index/state.h);//行
+    var h=index%state.h;//列
+    if(player==1){
+        if($(this).is(".whitez1")||$(this).is(".whitez2")) return;
+        $(".blackz1").addClass("blackz2").removeClass("blackz1");
+        $(".whitez1").addClass("whitez2").removeClass("whitez1");
+        $(this).addClass('blackz1');
+        craet[v][h]=player;
+        isWin(v,h,state);
+        isPing();
+        if(Ping){
+             alert("平局咯");
+            start(state); 
+            return;
+        }
+        if(win){
+            alert("玩家1win");
+            start(state);
+             return;
+        }
+        $(".pla").stop().fadeToggle();
+        player=2;
+    }else{
+        if($(this).is(".blackz1")||$(this).is(".blackz2")) return;
+        $(".whitez1").addClass("whitez2").removeClass("whitez1");
+        $(".blackz1").addClass("blackz2").removeClass("blackz1");
+        $(this).addClass('whitez1');
+        craet[v][h]=player;
+        isWin(v,h,state);
+        isPing();
+        if(Ping){
+             alert("平局咯");
+            start(state); 
+            return;
+        }
+        if(win){
+            alert("玩家2win");
+            start(state); 
+            return;
+        }
+        $(".pla").stop().fadeToggle();
+        player=1;
+    }
+});
+//判断平局
+function   isPing(){
+    Ping=true;
+    $(craet).each(function(index, el) {
+            $(el).each(function(index, el) {
+                if(el==0){
+                    Ping=false;
+                    return;
+                }
+            });
+            Ping=false;
+            return;
+     });
+}
+//判断输赢
+function isWin(v,h,state){
+    isTopBottom();
+    // 上下
+    function  isTopBottom(){
+        var counter=1;
+        for(var i=1;i<5;i++){
+            if(v-i<0) break;
+             if(craet[v-i][h]==player){
+                ++counter;
+             }else{
+                break;
+             }
+        }
+         for(var i=1;i<5;i++){
+            if(v+i>14) break;
+             if(craet[v+i][h]==player){
+                ++counter;
+             }else{
+                break;
+             }
+        }
+        if(counter>=5){
+              win=true;
+        }else{
+            isLeftRight();
+        }
+    }
+    // 左右
+    function  isLeftRight(){
+        var counter=1;
+        for(var i=1;i<5;i++){
+            if(h-i<0) break;
+             if(craet[v][h-i]==player){
+                ++counter;
+             }else{
+                break;
+             }
+        }
+         for(var i=1;i<5;i++){
+            if(h+i>14) break;
+             if(craet[v][h+i]==player){
+                ++counter;
+             }else{
+                break;
+             }
+        }
+        if(counter>=5){
+              win=true;
+        }else{
+            isLeftTopRightBottom();
+        }
+    }
+    // 左上右下
+    function  isLeftTopRightBottom(){
+        var counter=1;
+        for(var i=1;i<5;i++){
+            if(v-i<0||h-i<0) break;
+             if(craet[v-i][h-i]==player){
+                ++counter;
+            }else{
+               break;
+             }
+        }
+        for(var i=1;i<5;i++){
+             if(v+i>14||h+i>14) break;
+             if(craet[v+i][h+i]==player){
+                ++counter;
+            }else{
+               break;
+             }
+        }
+        if(counter>=5){
+              win=true;
+        }else{
+            isLeftBottomRightTop();
+        }
+    }
+     // 左下右上
+    function  isLeftBottomRightTop(){
+        var counter=1;
+        for(var i=1;i<5;i++){
+            if(v+i>14||h-i<0) break;
+             if(craet[v+i][h-i]==player){
+                ++counter;
+            }else{
+               break;
+             }
+        }
+        for(var i=1;i<5;i++){
+             if(v-i<0||h+i>14) break;
+             if(craet[v-i][h+i]==player){
+                ++counter;
+            }else{
+               break;
+             }
+        }
+        if(counter>=5){
+              win=true;
+        }
+    }
+    
+}
+//开始
+function  start(state){
+// 地图
+Ping=true;
+craet=[];
+player=state.player;
+win=false;
+solor(state);
+    // 初始化地图
+    for(var i=0;i<state.h;i++){
+    	var bol=[];
+    	for(var j=0;j<state.v;j++){
+    		bol.push(0);
+    	}
+    	craet.push(bol);
+    }
+    // 初始化棋盘
+    function  solor(state){
+    var pan=[];
+    for(var i=0;i<state.h;i++){
+       var s=[];
+       for(var j=0;j<state.v;j++){
+       	  if(i==0&&j==0){
+       	  	s.push("j1"); continue;
+       	  }
+       	  if(i==0&&j==state.v-1){
+    		s.push("j2"); continue;
+       	  }
+       	  if(i==state.h-1&&j==0){
+    		s.push("j3"); continue;
+       	  } 
+       	  if(i==state.h-1&&j==state.v-1){
+    		s.push("j4"); continue;
+       	  } 
+       	  if(i==0&&j>0&&j<state.v-1){
+       	  	s.push("top"); continue;
+       	  } 
+       	  if(j==state.v-1&&i>0&&i<state.h-1) {
+       	  	s.push("right"); continue;
+       	  }
+       	  if(i==state.h-1&&j>0&&j<state.v-1) {
+       	  	s.push("bottom"); continue;
+       	  }
+       	  if(j==0&&i>0&&i<state.h-1) {
+       	  	s.push("left"); continue;
+       	  }	
+       	  s.push("middle");
+       }
+       pan.push(s);
+    }
+    $(".content").html('');
+        $(pan).each(function(index, el) {
+        	$(el).each(function(index, el) {
+        		$(".content").append('<div class="ge '+el+'"></div>')
+        	});
+        });
+    } 
+}
+</script>

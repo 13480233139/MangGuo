@@ -1,0 +1,311 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2017-06-22 10:10:56
+ * @version $Id$
+ */
+*{
+	margin:0;
+	padding:0;
+	
+}
+.all{
+    width:560px;
+    margin:0 100px;
+    position:relative;
+}
+.cont{
+  width:100%;
+  padding:20px 0;
+  text-align:center;
+}
+.start {
+    -moz-box-shadow:inset 0px 1px 23px 0px #bbdaf7;
+    -webkit-box-shadow:inset 0px 1px 23px 0px #bbdaf7;
+    box-shadow:inset 0px 1px 23px 0px #bbdaf7;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5));
+    background:-moz-linear-gradient(top, #79bbff 5%, #378de5 100%);
+    background:-webkit-linear-gradient(top, #79bbff 5%, #378de5 100%);
+    background:-o-linear-gradient(top, #79bbff 5%, #378de5 100%);
+    background:-ms-linear-gradient(top, #79bbff 5%, #378de5 100%);
+    background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5',GradientType=0);
+    background-color:#79bbff;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:18px;
+    font-weight:bold;
+    padding:8px 23px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #528ecc;
+}
+.start:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff));
+    background:-moz-linear-gradient(top, #378de5 5%, #79bbff 100%);
+    background:-webkit-linear-gradient(top, #378de5 5%, #79bbff 100%);
+    background:-o-linear-gradient(top, #378de5 5%, #79bbff 100%);
+    background:-ms-linear-gradient(top, #378de5 5%, #79bbff 100%);
+    background:linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#378de5', endColorstr='#79bbff',GradientType=0);
+    background-color:#378de5;
+}
+.start:active {
+    position:relative;
+    top:1px;
+}
+
+.content{
+  border:1px solid #f3f3f3;
+  box-shadow:2px 2px 8px #888;
+  width:540px;
+  height:540px;
+  /*background-color:rgba(0,0,0,.2);*/
+  position:relative;
+  z-index:0;
+  /*background:url(images/bg.jpg);*/
+  background-size:540px 540px;
+  padding:7px 9px;
+  /*box-sizing:border-box;*/
+}
+.ge{
+    width:36px;
+    height:36px;
+    float:left;
+    position:relative;
+    cursor:pointer;
+}
+.j1:before{
+    content:"";
+    height:50%;
+    width:2px;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.j1:after{
+    content:"";
+    height:2px;
+    width:50%;
+    position:absolute;
+    right:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.j2:before{
+    content:"";
+    height:50%;
+    width:2px;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.j2:after{
+    content:"";
+    height:2px;
+    width:50%;
+    position:absolute;
+    left:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.j3:before{
+    content:"";
+    height:50%;
+    width:2px;
+    position:absolute;
+    top:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.j3:after{
+    content:"";
+    height:2px;
+    width:50%;
+    position:absolute;
+    right:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.j4:before{
+    content:"";
+    height:50%;
+    width:2px;
+    position:absolute;
+    top:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.j4:after{
+    content:"";
+    height:2px;
+    width:50%;
+    position:absolute;
+    left:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.top:before{
+    content:"";
+    height:50%;
+    width:2px;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.top:after{
+    content:"";
+    height:2px;
+    width:100%;
+    position:absolute;
+    right:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.bottom:before{
+    content:"";
+    height:50%;
+    width:2px;
+    position:absolute;
+    top:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.bottom:after{
+    content:"";
+    height:2px;
+    width:100%;
+    position:absolute;
+    right:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.right:before{
+    content:"";
+    height:100%;
+    width:2px;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.right:after{
+    content:"";
+    height:2px;
+    width:50%;
+    position:absolute;
+    left:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.left:before{
+    content:"";
+    height:100%;
+    width:2px;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.left:after{
+    content:"";
+    height:2px;
+    width:50%;
+    position:absolute;
+    right:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.middle:before{
+    content:"";
+    height:100%;
+    width:2px;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    margin-left:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.middle:after{
+    content:"";
+    height:2px;
+    width:100%;
+    position:absolute;
+    right:0;
+    top:50%;
+    margin-top:-1px;
+    background-color:gray;
+    z-index:-1;
+}
+.blackz2{
+   background:url(../images/black.png) no-repeat center !important;
+}
+.blackz1{
+   background:url(../images/black_last.png) no-repeat center !important;
+}
+.whitez2{
+   background:url(../images/white.png) no-repeat center !important;
+}
+.whitez1{
+   background:url(../images/white_last.png) no-repeat center !important;
+}
+.bac{
+     background:url(../images/black.png) no-repeat center !important;
+     position:absolute;
+     left:100px;
+     top:20px;
+     width:36px;
+     height:36px;
+     text-align:center;
+}
+.whi{
+     background:url(../images/white.png) no-repeat center !important;
+     position:absolute;
+     right:100px;
+     top:20px;
+     width:36px;
+     height:36px;
+     text-align:center;
+     display:none;
+}
