@@ -14,37 +14,86 @@
       <div class="content">
       </div>
       <div class="bac pla"></div>
-      <div class="whi pla"></div>
+      <div class="whi pla hide"></div>
+      <div class="btn">
+        <div class="plays"><div class="grade grades">双人玩</div></div>
+        <div class="grade1 grade grades active">人机1</div>
+        <div class="grade2 grade grades">人机2</div>
+        <div class="player1 player grade active">先手</div>
+        <div class="player2 player grade">后手</div>
+      </div>
 </div>
 </body>
 </html>
 <script src="js/jquery-2.0.2.min.js"></script>
 <script>
+var counter;
+var me;
+var craet=[];
 $(".start").click(function(event) {
     start(state);
 });
-// 地图
-var craet=[];
-var player=1;
-var win=false;
-// 地图以及先后手
-var state={
-    "h":"15",
-    "v":"15",
-    "player":1
-}
-start(state);
 $("body").on("click",".ge",function(event) {
     var index=$(this).index();
     var v=parseInt(index/state.h);//行
     var h=index%state.h;//列
-    if(player==1){
-        if($(this).is(".whitez1")||$(this).is(".whitez2")) return;
+    if(computer&&player==computerplayer) return;
+    chess(v,h);
+});
+$(".grades").click(function(event) {
+   $(".grades").removeClass('active');
+   $(this).addClass('active');
+   if($(this).is(".grade1")){
+    if(state.computer==false){
+       state.computer=true;
+       $(".player1").click();
+    }
+      
+      state.grade=1;
+   }else if($(this).is(".grade2")){
+      if(state.computer==false){
+       state.computer=true;
+       $(".player1").click();
+    }
+      state.grade=2;
+   }else{
+      state.computer=false;
+      $(".player").removeClass('active');
+   }
+   start(state);
+});
+$(".player").click(function(event) {
+  if(state.computer==false) return;
+   $(".player").removeClass('active');
+   $(this).addClass('active');
+    if($(this).is(".player1")){
+      state.computerplayer=2;
+   }else{
+      state.computerplayer=1;
+   }
+   start(state);
+});
+// 地图以及先后手
+var state={
+    "h":"15",//列
+    "v":"15",//行
+    "computerplayer":2,
+    "win":false,
+    "Ping":true,
+    "computer":true, //是否开启人机
+    "grade":1
+}
+start(state);
+function chess(v,h){
+    index=v*15+h;
+    var chessP=$(".ge").eq(index);
+     if(player==1){
+        if(chessP.is(".whitez1")||chessP.is(".whitez2")||chessP.is(".blackz2")) return;
         $(".blackz1").addClass("blackz2").removeClass("blackz1");
         $(".whitez1").addClass("whitez2").removeClass("whitez1");
-        $(this).addClass('blackz1');
+        chessP.addClass('blackz1');
         craet[v][h]=player;
-        isWin(v,h,state);
+        isWin(v,h);
         isPing();
         if(Ping){
              alert("平局咯");
@@ -52,19 +101,22 @@ $("body").on("click",".ge",function(event) {
             return;
         }
         if(win){
-            alert("玩家1win");
+           if(player==computerplayer){
+               alert("电脑win！！！");
+           }else{
+               alert("黑子win！！！");
+           }
             start(state);
              return;
         }
-        $(".pla").stop().fadeToggle();
         player=2;
     }else{
-        if($(this).is(".blackz1")||$(this).is(".blackz2")) return;
+        if(chessP.is(".blackz1")||chessP.is(".blackz2")||chessP.is(".white2")) return;
         $(".whitez1").addClass("whitez2").removeClass("whitez1");
         $(".blackz1").addClass("blackz2").removeClass("blackz1");
-        $(this).addClass('whitez1');
+        chessP.addClass('whitez1');
         craet[v][h]=player;
-        isWin(v,h,state);
+        isWin(v,h);
         isPing();
         if(Ping){
              alert("平局咯");
@@ -72,14 +124,142 @@ $("body").on("click",".ge",function(event) {
             return;
         }
         if(win){
-            alert("玩家2win");
+           if(player==computerplayer){
+               alert("电脑win！！！");
+           }else{
+               alert("白子win！！！");
+           }
             start(state); 
             return;
         }
-        $(".pla").stop().fadeToggle();
         player=1;
     }
-});
+     $(".pla").stop().fadeToggle();
+     setTimeout(function(){
+        if(computer&&player==computerplayer&&grade==1){
+          computerAI_1();
+       }else if(computer&&player==computerplayer&&grade==2){
+          computerAI_2();
+       }
+     },500);
+}
+
+
+// 电脑下棋
+// AI1
+function computerAI_1(){
+      // var Sorlre=[];
+       var comput=player;
+      var  computDian=getDian();
+        if(player==1){
+            player=2;
+          }else{
+            player=1;
+          }
+      var  plyDian=getDian();
+        player=comput;
+        // console.log(computDian,plyDian);
+        if(plyDian.counter>computDian.counter){
+            chess(plyDian.i,plyDian.j);
+        }else{
+            chess(computDian.i,computDian.j);
+        }
+}
+// AI2
+    function computerAI_2(){
+        var comput=player;
+        var computerDian=GetScore(addComputerscore);
+        if(player==1){
+            player=2;
+          }else{
+            player=1;
+          }
+        var playerDian=GetScore(addPlayerscore);
+             player=comput;
+             // console.log(computerDian,playerDian);
+             if(computerDian.Score>playerDian.Score){
+                chess(computerDian.i,computerDian.j);
+             }else{
+                chess(playerDian.i,playerDian.j);
+             }
+    }
+    // console.log(Math.abs(-7));
+function GetScore(addscore){
+         var maxScore=0;
+        var maxScoreDian=[];
+              for(var i=0;i<15;i++){
+                    for(var j=0;j<15;j++){
+                        var computerscore=0;
+                        if(craet[i][j]!=0) continue;
+                        computerscore+=addscore(isTopBottom,i,j,computerscore);
+                        computerscore+=addscore(isLeftRight,i,j,computerscore);
+                        computerscore+=addscore(isLeftBottomRightTop,i,j,computerscore);
+                        computerscore+=addscore(isLeftTopRightBottom,i,j,computerscore);
+                        if(computerscore>maxScore){
+                            maxScore=computerscore;
+                                    maxScoreDian=[];
+                                    maxScoreDian.push({
+                                        i:i,
+                                        j:j,
+                                        Score:maxScore
+                                    });
+                          }else if(computerscore==maxScore){
+                            if(maxScoreDian.length>0){
+                                jl1=Math.abs(i-7)+Math.abs(j-7);
+                                jl2=Math.abs(maxScoreDian[0].i-7)+Math.abs(maxScoreDian[0].j-7);
+                                if(jl1<jl2){
+                                    maxScore=computerscore;
+                                    maxScoreDian=[];
+                                    maxScoreDian.push({
+                                        i:i,
+                                        j:j,
+                                        Score:maxScore
+                                    });
+                                }
+                            }else{
+                                maxScore=computerscore;
+                                    maxScoreDian=[];
+                                    maxScoreDian.push({
+                                        i:i,
+                                        j:j,
+                                        Score:maxScore
+                                    });
+                                }
+                          }                       
+                  }
+              }
+              return maxScoreDian[0];
+}
+function addComputerscore(fun,i,j,score){
+    fun(i,j);
+    if(counter==5){
+        score+=400000;
+    }else if(counter==4){
+        score+=52000;
+    }else if(counter==3){
+        score+=3200;
+    }else if(counter==2){
+        score+=420;
+    }else if(counter==1){
+        score+=220;
+    }
+    return score;
+}
+function addPlayerscore(fun,i,j,score){
+    fun(i,j);
+    if(counter==5){
+        score+=100000;
+    }else if(counter==4){
+        score+=30000;
+    }else if(counter==3){
+        score+=2000;
+    }else if(counter==2){
+        score+=400;
+    }else if(counter==1){
+        score+=200;
+    }
+    return score;
+}
 //判断平局
 function   isPing(){
     Ping=true;
@@ -95,116 +275,67 @@ function   isPing(){
      });
 }
 //判断输赢
-function isWin(v,h,state){
-    isTopBottom();
-    // 上下
-    function  isTopBottom(){
-        var counter=1;
-        for(var i=1;i<5;i++){
-            if(v-i<0) break;
-             if(craet[v-i][h]==player){
-                ++counter;
-             }else{
-                break;
-             }
-        }
-         for(var i=1;i<5;i++){
-            if(v+i>14) break;
-             if(craet[v+i][h]==player){
-                ++counter;
-             }else{
-                break;
-             }
-        }
-        if(counter>=5){
-              win=true;
-        }else{
-            isLeftRight();
-        }
+function isWin(v,h){
+    isTopBottom(v,h);
+    
+    if(counter>=5){
+          win=true;
+          return;
+    }else{
+        isLeftRight(v,h);
     }
-    // 左右
-    function  isLeftRight(){
-        var counter=1;
-        for(var i=1;i<5;i++){
-            if(h-i<0) break;
-             if(craet[v][h-i]==player){
-                ++counter;
-             }else{
-                break;
-             }
-        }
-         for(var i=1;i<5;i++){
-            if(h+i>14) break;
-             if(craet[v][h+i]==player){
-                ++counter;
-             }else{
-                break;
-             }
-        }
-        if(counter>=5){
-              win=true;
-        }else{
-            isLeftTopRightBottom();
-        }
-    }
-    // 左上右下
-    function  isLeftTopRightBottom(){
-        var counter=1;
-        for(var i=1;i<5;i++){
-            if(v-i<0||h-i<0) break;
-             if(craet[v-i][h-i]==player){
-                ++counter;
-            }else{
-               break;
-             }
-        }
-        for(var i=1;i<5;i++){
-             if(v+i>14||h+i>14) break;
-             if(craet[v+i][h+i]==player){
-                ++counter;
-            }else{
-               break;
-             }
-        }
-        if(counter>=5){
-              win=true;
-        }else{
-            isLeftBottomRightTop();
-        }
-    }
-     // 左下右上
-    function  isLeftBottomRightTop(){
-        var counter=1;
-        for(var i=1;i<5;i++){
-            if(v+i>14||h-i<0) break;
-             if(craet[v+i][h-i]==player){
-                ++counter;
-            }else{
-               break;
-             }
-        }
-        for(var i=1;i<5;i++){
-             if(v-i<0||h+i>14) break;
-             if(craet[v-i][h+i]==player){
-                ++counter;
-            }else{
-               break;
-             }
-        }
-        if(counter>=5){
-              win=true;
-        }
+   
+    if(counter>=5){
+          win=true;
+          return;
+    }else{
+        isLeftTopRightBottom(v,h);
     }
     
+    if(counter>=5){
+          win=true;
+          return;
+    }else{
+        isLeftBottomRightTop(v,h);
+    }
+    if(counter>=5){
+          win=true;
+          return;
+    }
 }
+
 //开始
 function  start(state){
+    if(!state){
+        // 初始化对象
+        var state={
+            "h":"15",//列
+            "v":"15",//行
+            "computerplayer":1,
+            "win":false,
+            "Ping":true,
+            "computer":true, //是否开启人机
+            "grade":1
+        }
+    }
+
 // 地图
-Ping=true;
+Ping=state.Ping;
 craet=[];
-player=state.player;
-win=false;
+player=1;
+win=state.win;
+computer=state.computer;
+grade=state.grade;
+computerplayer=state.computerplayer;
+if(computerplayer==1){
+   me=2;
+}else{
+  me=1;
+}
 solor(state);
+// console.log(computer,win,player,craet,Ping);
+$(".bac").fadeIn();
+$(".whi").fadeOut();
     // 初始化地图
     for(var i=0;i<state.h;i++){
     	var bol=[];
@@ -253,6 +384,151 @@ solor(state);
         		$(".content").append('<div class="ge '+el+'"></div>')
         	});
         });
-    } 
+    }
+    if(computer&&computerplayer==1){
+      if(grade==1){
+        computerAI_1();
+      }else{
+        computerAI_2();
+      }
+    }
+}
+
+/***********/
+ // 左下右上
+function  isLeftBottomRightTop(v,h){
+    counter=1;
+    for(var i=1;i<5;i++){
+        if(v+i>14||h-i<0) break;
+         if(craet[v+i][h-i]==player){
+            ++counter;
+        }else{
+           break;
+         }
+    }
+    for(var i=1;i<5;i++){
+         if(v-i<0||h+i>14) break;
+         if(craet[v-i][h+i]==player){
+            ++counter;
+        }else{
+           break;
+         }
+    }
+}
+// 左上右下
+function  isLeftTopRightBottom(v,h){
+    counter=1;
+    for(var i=1;i<5;i++){
+        if(v-i<0||h-i<0) break;
+         if(craet[v-i][h-i]==player){
+            ++counter;
+        }else{
+           break;
+         }
+    }
+    for(var i=1;i<5;i++){
+         if(v+i>14||h+i>14) break;
+         if(craet[v+i][h+i]==player){
+            ++counter;
+        }else{
+           break;
+         }
+    }
+}
+ // 左右
+function  isLeftRight(v,h){
+    counter=1;
+    for(var i=1;i<5;i++){
+        if(h-i<0) break;
+         if(craet[v][h-i]==player){
+            ++counter;
+         }else{
+            break;
+         }
+    }
+     for(var i=1;i<5;i++){
+        if(h+i>14) break;
+         if(craet[v][h+i]==player){
+            ++counter;
+         }else{
+            break;
+         }
+    }
+}
+// 上下
+function  isTopBottom(v,h){
+    counter=1;
+    for(var i=1;i<5;i++){
+        if(v-i<0) break;
+         if(craet[v-i][h]==player){
+            ++counter;
+         }else{
+            break;
+         }
+    }
+     for(var i=1;i<5;i++){
+        if(v+i>14) break;
+         if(craet[v+i][h]==player){
+            ++counter;
+         }else{
+            break;
+         }
+    }
+}
+
+
+function getDian(){
+      var computerscore=[];
+      for(var i=0;i<15;i++){
+            for(var j=0;j<15;j++){
+                if(craet[i][j]!=0) continue;
+                    computerscore.push(REtDian(isTopBottom,i,j));
+                    computerscore.push(REtDian(isLeftRight,i,j));
+                    computerscore.push(REtDian(isLeftBottomRightTop,i,j));
+                    computerscore.push(REtDian(isLeftTopRightBottom,i,j));                      
+          }
+      }
+      var cog=5;
+      var couk=[];
+      while(cog){
+         var conf=false;
+      $(computerscore).each(function(index, el) {
+            if(el.counter==cog){
+                couk.push(el);
+                conf=true;
+            }   
+      });
+      if(conf) break;
+      cog--;
+     }
+      var temp=9999999999999;
+      var couks=[];
+      $(couk).each(function(index, el) {
+          var  jl=0;
+          if(el.i<7){
+              jl+=7-el.i;
+          }else{
+              jl+=el.i-7;
+          }
+          if(el.j<7){
+              jl+=7-el.j;
+          }else{
+              jl+=el.j-7;
+          }
+          if(jl<temp){
+            temp=jl;
+            couks=[];
+            couks.push(el);
+          }
+      });
+      return  couks[0];    
+    }
+function  REtDian(adds,i,j){
+adds(i,j);
+    return {
+        i:i,
+        j:j,
+        counter:counter
+    }
 }
 </script>
