@@ -30,28 +30,12 @@
     right:-250px;
     top:100px;
 }
-.plays{
-    text-align:center;
-    margin-bottom:50px;
+.btn div{
+    margin-right:10px;
+    margin-top:50px;
 }
 .btn div.active{
     border:2px solid red;
-}
-.grade1{
-    float:left;
-}
-.grade2{
-    float:right;
-}
-.player{
-    margin-top:50px;
-}
-.player1{
-    clear:both;
-    float:left;
-}
-.player2{
-   float:right;
 }
 .start {
     -moz-box-shadow:inset 0px 1px 23px 0px #bbdaf7;

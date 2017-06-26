@@ -16,9 +16,10 @@
       <div class="bac pla"></div>
       <div class="whi pla hide"></div>
       <div class="btn">
-        <div class="plays"><div class="grade grades">双人玩</div></div>
-        <div class="grade1 grade grades active">人机1</div>
-        <div class="grade2 grade grades">人机2</div>
+        <div class="grade grades">双人玩</div>
+        <div class="grade1 grade grades active">初级人机</div>
+        <div class="grade2 grade grades">中级人机</div>
+        <div class="grade3 grade grades">高级人机</div>
         <div class="player1 player grade active">先手</div>
         <div class="player2 player grade">后手</div>
       </div>
@@ -44,7 +45,7 @@ $(".grades").click(function(event) {
    $(".grades").removeClass('active');
    $(this).addClass('active');
    if($(this).is(".grade1")){
-    if(state.computer==false){
+      if(state.computer==false){
        state.computer=true;
        $(".player1").click();
     }
@@ -56,11 +57,18 @@ $(".grades").click(function(event) {
        $(".player1").click();
     }
       state.grade=2;
+   }else if($(this).is(".grade3")){
+      if(state.computer==false){
+       state.computer=true;
+       $(".player1").click();
+    }
+      state.grade=3;
    }else{
       state.computer=false;
       $(".player").removeClass('active');
    }
    start(state);
+   console.log(grade);
 });
 $(".player").click(function(event) {
   if(state.computer==false) return;
@@ -87,6 +95,19 @@ start(state);
 function chess(v,h){
     index=v*15+h;
     var chessP=$(".ge").eq(index);
+    if(computer&&grade==3){
+      for(var k=0;k<count;k++){
+        if(wins[v][h][k]){
+          if(player==computerplayer){
+            computerwin[k]++;
+            mywin[k]=6;
+          }else{
+            mywin[k]++;
+            computerwin[k]=6;
+          }
+        } 
+      }
+    }
      if(player==1){
         if(chessP.is(".whitez1")||chessP.is(".whitez2")||chessP.is(".blackz2")) return;
         $(".blackz1").addClass("blackz2").removeClass("blackz1");
@@ -135,18 +156,18 @@ function chess(v,h){
         player=1;
     }
      $(".pla").stop().fadeToggle();
-     setTimeout(function(){
         if(computer&&player==computerplayer&&grade==1){
           computerAI_1();
        }else if(computer&&player==computerplayer&&grade==2){
           computerAI_2();
+       }else if(computer&&player==computerplayer&&grade==3){
+          computerAI_3();
        }
-     },500);
 }
 
 
 // 电脑下棋
-// AI1
+// 初级人机
 function computerAI_1(){
       // var Sorlre=[];
        var comput=player;
@@ -165,7 +186,7 @@ function computerAI_1(){
             chess(computDian.i,computDian.j);
         }
 }
-// AI2
+// 中级人机
     function computerAI_2(){
         var comput=player;
         var computerDian=GetScore(addComputerscore);
@@ -183,7 +204,70 @@ function computerAI_1(){
                 chess(playerDian.i,playerDian.j);
              }
     }
-    // console.log(Math.abs(-7));
+//高级人机
+function computerAI_3(){
+    var computerscore=[];
+    var playerscore=[];
+    var max=0;
+    var u=0,v=0;
+    for(var i=0;i<15;i++){
+        computerscore[i]=[];
+        playerscore[i]=[];
+      for(var j=0;j<15;j++){
+        computerscore[i][j]=0;
+        playerscore[i][j]=0;
+      }
+    }
+
+    for(var i=0;i<15;i++){
+      for(var j=0;j<15;j++){
+        if(craet[i][j]!=0) continue;
+          for(var k=0; k<count;k++){
+            if(wins[i][j][k]){
+              if(mywin[k]==1){
+                playerscore[i][j]+=200;
+              }else if(mywin[k]==2){
+                playerscore[i][j]+=400;
+              }else if(mywin[k]==3){
+                playerscore[i][j]+=2000;
+              }else if(mywin[k]==4){
+                playerscore[i][j]+=10000;
+              }
+              if(computerwin[k]==1){
+                computerscore[i][j]+=220;
+              }else if(mywin[k]==2){
+                computerscore[i][j]+=420;
+              }else if(computerwin[k]==3){
+                computerscore[i][j]+=2100;
+              }else if(computerwin[k]==4){
+                computerscore[i][j]+=20000;
+              }
+            }
+          }
+          if(playerscore[i][j]>max){
+            max=playerscore[i][j];
+            u=i;
+            v=j;
+          }else if(playerscore[i][j]==max){
+            if(computerscore[i][j]>computerscore[u][v]){
+              u=j;
+              v=j;
+            }
+          }
+          if(computerscore[i][j]>max){
+            max=computerscore[i][j];
+            u=i;
+            v=j;
+          }else if(computerscore[i][j]==max){
+            if(playerscore[i][j]>playerscore[u][v]){
+              u=i;
+              v=j;
+            }
+          }
+      }
+    }
+    chess(u,v);
+}
 function GetScore(addscore){
          var maxScore=0;
         var maxScoreDian=[];
@@ -318,7 +402,6 @@ function  start(state){
             "grade":1
         }
     }
-
 // 地图
 Ping=state.Ping;
 craet=[];
@@ -338,11 +421,10 @@ $(".bac").fadeIn();
 $(".whi").fadeOut();
     // 初始化地图
     for(var i=0;i<state.h;i++){
-    	var bol=[];
+    	  craet[i]=[];
     	for(var j=0;j<state.v;j++){
-    		bol.push(0);
+    		craet[i][j]=0
     	}
-    	craet.push(bol);
     }
     // 初始化棋盘
     function  solor(state){
@@ -388,8 +470,10 @@ $(".whi").fadeOut();
     if(computer&&computerplayer==1){
       if(grade==1){
         computerAI_1();
-      }else{
+      }else if(grade==2){
         computerAI_2();
+      }else if(grade==3){
+        computerAI_3();
       }
     }
 }
@@ -531,4 +615,55 @@ adds(i,j);
         counter:counter
     }
 }
+ var wins=[];
+    for(var i=0; i<15; i++){
+      wins[i]=[];
+      for(var j=0; j<15; j++){
+        wins[i][j]=[];
+      }
+    }
+    var mywin=[];
+    var computerwin=[];
+    var count=0;
+    // 左右
+    for(var i=0;i<15;i++){
+      for(var j=0;j<11;j++){
+        for(var k=0;k<5;k++){
+          wins[i][j+k][count]=true;
+        }
+        count++;
+      }
+    }
+    // 上下
+    for(var i=0;i<15;i++){
+      for(var j=0;j<11;j++){
+        for(var k=0;k<5;k++){
+          wins[j+k][i][count]=true;
+        }
+        count++;
+      }
+    }
+    // 斜线
+    for(var i=0;i<11;i++){
+      for(var j=0;j<11;j++){
+        for(var k=0;k<5;k++){
+          wins[i+k][j+k][count]=true;
+        }
+        count++;
+      }
+    }
+    // 反斜线
+    for(var i=0;i<11;i++){
+      for(var j=14;j>3;j--){
+        for(var k=0;k<5;k++){
+          wins[i+k][j-k][count]=true;
+        }
+        count++;
+      }
+    }
+   
+   for(var i=0;i<count;i++){
+      mywin[i]=0;
+      computerwin[i]=0;
+   }
 </script>
