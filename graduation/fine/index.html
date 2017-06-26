@@ -28,6 +28,10 @@
 </html>
 <script src="js/jquery-2.0.2.min.js"></script>
 <script>
+var wins;
+var mywin;
+var computerwin;
+var count;
 var counter;
 var me;
 var craet=[];
@@ -266,6 +270,7 @@ function computerAI_3(){
           }
       }
     }
+    console.log(computerscore[u][v],playerscore[u][v]);
     chess(u,v);
 }
 function GetScore(addscore){
@@ -476,6 +481,59 @@ $(".whi").fadeOut();
         computerAI_3();
       }
     }
+
+    /*********************************/
+    wins=[];
+    for(var i=0; i<15; i++){
+      wins[i]=[];
+      for(var j=0; j<15; j++){
+        wins[i][j]=[];
+      }
+    }
+    mywin=[];
+    computerwin=[];
+    count=0;
+    // 左右
+    for(var i=0;i<15;i++){
+      for(var j=0;j<11;j++){
+        for(var k=0;k<5;k++){
+          wins[i][j+k][count]=true;
+        }
+        count++;
+      }
+    }
+    // 上下
+    for(var i=0;i<15;i++){
+      for(var j=0;j<11;j++){
+        for(var k=0;k<5;k++){
+          wins[j+k][i][count]=true;
+        }
+        count++;
+      }
+    }
+    // 斜线
+    for(var i=0;i<11;i++){
+      for(var j=0;j<11;j++){
+        for(var k=0;k<5;k++){
+          wins[i+k][j+k][count]=true;
+        }
+        count++;
+      }
+    }
+    // 反斜线
+    for(var i=0;i<11;i++){
+      for(var j=14;j>3;j--){
+        for(var k=0;k<5;k++){
+          wins[i+k][j-k][count]=true;
+        }
+        count++;
+      }
+    }
+   
+   for(var i=0;i<count;i++){
+      mywin[i]=0;
+      computerwin[i]=0;
+   }
 }
 
 /***********/
@@ -615,55 +673,4 @@ adds(i,j);
         counter:counter
     }
 }
- var wins=[];
-    for(var i=0; i<15; i++){
-      wins[i]=[];
-      for(var j=0; j<15; j++){
-        wins[i][j]=[];
-      }
-    }
-    var mywin=[];
-    var computerwin=[];
-    var count=0;
-    // 左右
-    for(var i=0;i<15;i++){
-      for(var j=0;j<11;j++){
-        for(var k=0;k<5;k++){
-          wins[i][j+k][count]=true;
-        }
-        count++;
-      }
-    }
-    // 上下
-    for(var i=0;i<15;i++){
-      for(var j=0;j<11;j++){
-        for(var k=0;k<5;k++){
-          wins[j+k][i][count]=true;
-        }
-        count++;
-      }
-    }
-    // 斜线
-    for(var i=0;i<11;i++){
-      for(var j=0;j<11;j++){
-        for(var k=0;k<5;k++){
-          wins[i+k][j+k][count]=true;
-        }
-        count++;
-      }
-    }
-    // 反斜线
-    for(var i=0;i<11;i++){
-      for(var j=14;j>3;j--){
-        for(var k=0;k<5;k++){
-          wins[i+k][j-k][count]=true;
-        }
-        count++;
-      }
-    }
-   
-   for(var i=0;i<count;i++){
-      mywin[i]=0;
-      computerwin[i]=0;
-   }
 </script>
