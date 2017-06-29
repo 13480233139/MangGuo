@@ -1,0 +1,52 @@
+body{
+	background-color:#eee;
+}
+header{
+	text-align:center;
+}
+h1{
+	color:#ccc0b3;
+	font-size:50px;
+}
+header button{
+	padding:10px;
+	color:white;
+	background-color:#8f7a66;
+	font-size:20px;
+	border:0;  
+	border-radius:6px;
+	box-shadow:1px 1px 2px #8f7a66;
+	
+}
+.container{
+	width:460px;
+	height:460px;
+	padding:20px;
+	background-color:#bbada0;
+	margin:50px auto;
+	border-radius:10px;
+	position:relative;
+}
+.blo_cell{
+	width:100px;
+	height:100px;
+	color:white;
+	font-size:0;
+	border-radius:6px;
+	background-color:#ccc0b3;
+	position:absolute;
+}
+.num_cell{
+	width:100px;
+	height:100px;
+	color:white;
+	font-size:48px;
+	line-height:100px;
+	text-align:center;
+	border-radius:6px;
+	background-color:#ccc0b3;
+	position:absolute;
+	z-index:1;
+	left:0;
+	top:0;
+}

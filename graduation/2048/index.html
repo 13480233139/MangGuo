@@ -1,0 +1,358 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>2048</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+</head>
+<body>
+	<header>
+		<h1>2048</h1>
+		<button  onclick="NewGame()">New Game</button>
+        <p>由方向键上下左右控制</p>
+	</header>
+	<div class="container">
+	</div>
+</body>
+</html>
+<script src='jquery-2.0.2.min.js'></script>
+<script>
+var spead=200;
+var bord=[];
+var scull=true;
+var moves=false;
+	NewGame();
+	function NewGame(){
+		//初始化每个格子
+		init();
+		//随机增加两个数字2或4
+		pushBordNum();
+        pushBordNum();
+        // getBordQP();
+        // console.log(bord[1][1],bord[0][1],bord[1][-1]);
+	}
+	function init(){
+		$(".container").html('');
+		bord=[];
+		for(var i=0;i<4;i++){
+			bord[i]=[];
+			for(var j=0;j<4;j++){
+				bord[i][j]=0;
+				$(".container").append('<div class="blo_cell" id="cell-'+i+'-'+j+'"></div>');
+				$("#cell-"+i+"-"+j+"").css({
+					left:getLeft(j),
+					top:getTop(i)
+				});
+			}
+		}
+	}
+	function  getLeft(j){
+		return 20+j*120;
+	}
+	function  getTop(i){
+		return 20+i*120;
+	}
+	function  getNum(){
+		var num=Math.random();
+		if(num>0.5){
+			return 2;
+		}else{
+			return 4;
+		}
+	}
+	function getRandomNum(Min,Max){   
+          var Range = Max - Min;   
+          var Rand = Math.random();   
+          return(Min + Math.round(Rand * Range));   
+    }
+    function  pushBordNum(){
+    	var  Num=getNum();
+    	var  dirce=getRandomNum(0,15);
+    	var  v=parseInt(dirce/4);//行
+    	var  h=dirce%4;//列
+    	while(bord[v][h]!=0){
+    		dirce=getRandomNum(0,15);
+    		v=parseInt(dirce/4);//行
+    		h=dirce%4;//列
+    	}
+    	bord[v][h]=Num;
+         $(".container").append('<div class="num_cell" id="num-'+v+'-'+h+'"></div>');
+                     $("#num-"+v+"-"+h+"").text(Num).css({
+                        "background-color":getBackColor(Num),
+                        "color":getNumColor(Num),
+                        left:getLeft(h),
+                        top:getTop(v)
+        });
+    	
+    }
+    document.onkeyup=function(){
+    	var key=event.keyCode;
+    	if(key==38){
+            if(scull){
+                scull=false;
+                Topmove();
+            }
+    		
+    	}else if(key==39){
+    		if(scull){
+                scull=false;
+                Rightmove();
+            }
+    	}else if(key==40){
+    		if(scull){
+                scull=false;
+                Downmove();
+            }
+    	}else if(key==37){
+    		if(scull){
+                scull=false;
+                Leftmove();
+            }
+    	}
+    }
+     function getBackColor(number){
+        switch(number){
+            case 2:return '#eee4da'; break;
+            case 4:return '#ede0c8'; break;
+            case 8:return '#f2b179'; break;
+            case 16:return '#f59563'; break;
+            case 32:return '#f67c5f'; break;
+            case 64:return '#f65e3b'; break;
+            case 128:return '#edcf72'; break;
+            case 256:return '#edcc61'; break;
+            case 512:return '#9c0'; break;
+            case 1024:return '#33b5e5'; break;
+            case 2048:return '#09c'; break;
+            case 4096:return '#a6c'; break;
+            case 8192:return '#93c'; break;
+        }
+        return 'black';
+    }
+    function getNumColor(number){
+        if(number<=4){
+            return '#776e65';
+        }
+        return 'white';
+    }
+    function isOver(){
+        over=true;
+        for(var i=0;i<4;i++){
+            for(var j=0;j<4;j++){
+                if(bord[i][j]==0){
+                    over=false;
+                    return;
+                }
+            }
+        }
+        for(var i=0;i<3;i++){
+            for(var j=0;j<3;j++){
+               if(bord[i][j]==bord[i][j+1]||bord[i][j]==bord[i+1][j]){
+                    over=false;
+                    return;
+               }
+            }
+        }
+    }
+    function JxPush(){
+        if(moves){
+            setTimeout(function(){
+                pushBordNum();
+                isOver();
+                if(over){
+                    alert("游戏结束！");
+                }else{
+                    scull=true;
+                }
+            },spead); 
+        }else{
+            scull=true;
+        }
+    }
+    function Leftmove(){
+        var icout;
+        var icouts;
+        moves=false;
+        for(var i=0;i<4;i++){
+            icout=0;
+            icouts=0;
+            for(var j=0;j<4;j++){
+                if(bord[i][j]==0){
+                    icout++;
+                }else{
+                    if(bord[i][j]==bord[i][j-icout-1]){
+                                PoLeft=$("#num-"+i+"-"+j+"").position().left;
+                                function mov(i,j,icout){
+                                    $("#num-"+i+"-"+j+"").animate({
+                                        left:PoLeft-getLeft(icout)-100
+                                    },spead,function(){
+                                        j=(j-1-icout);
+                                        var TNum=+$("#num-"+i+"-"+j+"").text()*2;
+                                        $(this).remove();
+                                        $("#num-"+i+"-"+j+"").text(TNum).css({
+                                            "background-color":getBackColor(TNum),
+                                            "color":getNumColor(TNum)
+                                        });
+                                    }); 
+                                }
+                                mov(i,j,icout);
+                                bord[i][j-icout-1]=bord[i][j]*2;
+                                bord[i][j]=0;
+                                icouts++
+                                moves=true;
+                    }else if(j-icout-icouts!=j){
+                                 PoLeft=$("#num-"+i+"-"+j+"").position().left;
+                                $("#num-"+i+"-"+j+"").animate({
+                                    left:PoLeft-getLeft(icout+icouts)+20
+                                },spead);
+                                $("#num-"+i+"-"+j+"").attr('id',"num-"+i+"-"+(j-icout-icouts)+"");
+                                bord[i][j-icout-icouts]=bord[i][j];
+                                bord[i][j]=0;
+                                moves=true;
+                    }
+                }  
+            }
+        }
+        JxPush();
+    }
+    function Rightmove(){
+        var icout;
+         var icouts;
+        moves=false;
+        for(var i=0;i<4;i++){
+            icout=0;
+            icouts=0;
+            for(var j=3;j>=0;j--){
+                if(bord[i][j]==0){
+                    icout++;
+                }else{
+                    if(bord[i][j]==bord[i][j+icout+1]){
+                                PoLeft=$("#num-"+i+"-"+j+"").position().left;
+                                function mov(i,j,icout){
+                                    $("#num-"+i+"-"+j+"").animate({
+                                        left:PoLeft+getLeft(icout)+100
+                                    },spead,function(){
+                                        j=(j+1+icout);
+                                        var TNum=+$("#num-"+i+"-"+j+"").text()*2;
+                                        $(this).remove();
+                                        $("#num-"+i+"-"+j+"").text(TNum).css({
+                                            "background-color":getBackColor(TNum),
+                                            "color":getNumColor(TNum)
+                                        });
+                                    }); 
+                                }
+                                mov(i,j,icout);
+                                bord[i][j+icout+1]=bord[i][j]*2;
+                                bord[i][j]=0;
+                                icouts++;
+                                moves=true;
+                    }else if(j+icout+icouts!=j){
+                                 PoLeft=$("#num-"+i+"-"+j+"").position().left;
+                                $("#num-"+i+"-"+j+"").animate({
+                                    left:PoLeft+getLeft(icout+icouts)-20
+                                },spead);
+                                $("#num-"+i+"-"+j+"").attr('id',"num-"+i+"-"+(j+icout+icouts)+"");
+                                bord[i][j+icout+icouts]=bord[i][j];
+                                bord[i][j]=0;
+                                moves=true;
+                    }
+                }
+            }
+        }
+        JxPush();
+    }
+    function Topmove(){
+        var icout;
+        var icouts;
+        moves=false;
+        for(var i=0;i<4;i++){
+            icout=0;
+            icouts=0;
+            for(var j=0;j<4;j++){
+                if(bord[j][i]==0){
+                    icout++;
+                }else{
+                    if(j-icout>0&&bord[j][i]==bord[j-icout-1][i]){
+                            console.log(j,i,icout,bord[j][i]);
+                                PoTop=$("#num-"+j+"-"+i+"").position().top;
+                                function mov(i,j,icout){
+                                    $("#num-"+i+"-"+j+"").animate({
+                                        top:PoTop-getTop(icout)-100
+                                    },spead,function(){
+                                        i=(i-1-icout);
+                                        var TNum=+$("#num-"+i+"-"+j+"").text()*2;
+                                        $(this).remove();
+                                        $("#num-"+i+"-"+j+"").text(TNum).css({
+                                            "background-color":getBackColor(TNum),
+                                            "color":getNumColor(TNum)
+                                        });
+                                    }); 
+                                }
+                                mov(j,i,icout);
+                                bord[j-icout-1][i]=bord[j][i]*2;
+                                bord[j][i]=0;
+                                icouts++;
+                                moves=true;
+                    }else if(j-icout-icouts!=j){
+                                 PoTop=$("#num-"+j+"-"+i+"").position().top;
+                                $("#num-"+j+"-"+i+"").animate({
+                                    top:PoTop-getTop(icout+icouts)+20
+                                },spead);
+                                $("#num-"+j+"-"+i+"").attr('id',"num-"+(j-icout-icouts)+"-"+i+"");
+                                bord[j-icout-icouts][i]=bord[j][i];
+                                bord[j][i]=0;
+                                moves=true;
+                    }
+                }
+            }
+        }
+        JxPush();
+    }
+    function Downmove(){
+        var icout;
+        var icouts;
+        moves=false;
+        for(var i=0;i<4;i++){
+            icout=0;
+            icouts=0;
+            for(var j=3;j>=0;j--){
+                if(bord[j][i]==0){
+                    icout++;
+                }else{
+                    if(j+icout<3&&bord[j][i]==bord[j+icout+1][i]){
+                                PoTop=$("#num-"+j+"-"+i+"").position().top;
+                                function mov(i,j,icout){
+                                    $("#num-"+i+"-"+j+"").animate({
+                                        top:PoTop+getTop(icout)+100
+                                    },spead,function(){
+                                        i=(i+1+icout);
+                                        var TNum=+$("#num-"+i+"-"+j+"").text()*2;
+                                        $(this).remove();
+                                        $("#num-"+i+"-"+j+"").text(TNum).css({
+                                            "background-color":getBackColor(TNum),
+                                            "color":getNumColor(TNum)
+                                        });
+                                    }); 
+                                }
+                                mov(j,i,icout);
+                                bord[j+icout+1][i]=bord[j][i]*2;
+                                bord[j][i]=0;
+                                icouts++;
+                                moves=true;
+                            }else if(j+icout+icouts!=j){
+                                 PoTop=$("#num-"+j+"-"+i+"").position().top;
+                                $("#num-"+j+"-"+i+"").animate({
+                                    top:PoTop+getTop(icout+icouts)-20
+                                },spead);
+                       
+                                $("#num-"+j+"-"+i+"").attr('id',"num-"+(j+icout+icouts)+"-"+i+"");
+                                bord[j+icout+icouts][i]=bord[j][i];
+                                bord[j][i]=0;
+                                moves=true;
+                            }
+                }
+            }
+        }
+        JxPush();
+    }
+</script>
