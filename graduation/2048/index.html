@@ -18,7 +18,7 @@
 </html>
 <script src='jquery-2.0.2.min.js'></script>
 <script>
-var spead=200;
+var spead=180;
 var bord=[];
 var scull=true;
 var moves=false;
@@ -156,7 +156,6 @@ var moves=false;
     }
     function JxPush(){
         if(moves){
-            setTimeout(function(){
                 pushBordNum();
                 isOver();
                 if(over){
@@ -164,7 +163,7 @@ var moves=false;
                 }else{
                     scull=true;
                 }
-            },spead); 
+            
         }else{
             scull=true;
         }
@@ -179,45 +178,50 @@ var moves=false;
             for(var j=0;j<4;j++){
                 if(bord[i][j]==0){
                     icout++;
+                    icouts++;
                 }else{
-                    if(bord[i][j]==bord[i][j-icout-1]){
+                    if(bord[i][j]==bord[i][j-icouts-1]){
                                 PoLeft=$("#num-"+i+"-"+j+"").position().left;
-                                function mov(i,j,icout){
+                                function mov(i,j,icouts){
                                     $("#num-"+i+"-"+j+"").animate({
-                                        left:PoLeft-getLeft(icout)-100
+                                        left:PoLeft-getLeft(icouts)-100
                                     },spead,function(){
-                                        j=(j-1-icout);
-                                        var TNum=+$("#num-"+i+"-"+j+"").text()*2;
                                         $(this).remove();
+                                        j=(j-icouts-1);
+                                        var TNum=+$("#num-"+i+"-"+j+"").text()*2;
                                         $("#num-"+i+"-"+j+"").text(TNum).css({
                                             "background-color":getBackColor(TNum),
                                             "color":getNumColor(TNum)
                                         });
                                     }); 
                                 }
-                                mov(i,j,icout);
-                                bord[i][j-icout-1]=bord[i][j]*2;
+                                mov(i,j,icouts);
+                                bord[i][j-icouts-1]=bord[i][j]*2;
                                 bord[i][j]=0;
-                                icouts++
+                                icout++;
                                 moves=true;
-                    }else if(j-icout-icouts!=j){
+                               
+                    }else if(j-icout!=j){
                                  PoLeft=$("#num-"+i+"-"+j+"").position().left;
                                 $("#num-"+i+"-"+j+"").animate({
-                                    left:PoLeft-getLeft(icout+icouts)+20
+                                    left:PoLeft-getLeft(icout)+20
                                 },spead);
-                                $("#num-"+i+"-"+j+"").attr('id',"num-"+i+"-"+(j-icout-icouts)+"");
-                                bord[i][j-icout-icouts]=bord[i][j];
+                                $("#num-"+i+"-"+j+"").attr('id',"num-"+i+"-"+(j-icout)+"");
+                                bord[i][j-icout]=bord[i][j];
                                 bord[i][j]=0;
                                 moves=true;
                     }
                 }  
             }
         }
-        JxPush();
+      
+            setTimeout(function(){
+             JxPush();
+            },spead+10);
     }
     function Rightmove(){
         var icout;
-         var icouts;
+        var icouts;
         moves=false;
         for(var i=0;i<4;i++){
             icout=0;
@@ -225,14 +229,15 @@ var moves=false;
             for(var j=3;j>=0;j--){
                 if(bord[i][j]==0){
                     icout++;
+                    icouts++;
                 }else{
-                    if(bord[i][j]==bord[i][j+icout+1]){
+                    if(bord[i][j]==bord[i][j+icouts+1]){
                                 PoLeft=$("#num-"+i+"-"+j+"").position().left;
-                                function mov(i,j,icout){
+                                function mov(i,j,icouts){
                                     $("#num-"+i+"-"+j+"").animate({
-                                        left:PoLeft+getLeft(icout)+100
+                                        left:PoLeft+getLeft(icouts)+100
                                     },spead,function(){
-                                        j=(j+1+icout);
+                                        j=(j+1+icouts);
                                         var TNum=+$("#num-"+i+"-"+j+"").text()*2;
                                         $(this).remove();
                                         $("#num-"+i+"-"+j+"").text(TNum).css({
@@ -241,25 +246,27 @@ var moves=false;
                                         });
                                     }); 
                                 }
-                                mov(i,j,icout);
-                                bord[i][j+icout+1]=bord[i][j]*2;
+                                mov(i,j,icouts);
+                                bord[i][j+icouts+1]=bord[i][j]*2;
                                 bord[i][j]=0;
-                                icouts++;
+                                icout++;
                                 moves=true;
-                    }else if(j+icout+icouts!=j){
+                    }else if(j+icout!=j){
                                  PoLeft=$("#num-"+i+"-"+j+"").position().left;
                                 $("#num-"+i+"-"+j+"").animate({
-                                    left:PoLeft+getLeft(icout+icouts)-20
+                                    left:PoLeft+getLeft(icout)-20
                                 },spead);
-                                $("#num-"+i+"-"+j+"").attr('id',"num-"+i+"-"+(j+icout+icouts)+"");
-                                bord[i][j+icout+icouts]=bord[i][j];
+                                $("#num-"+i+"-"+j+"").attr('id',"num-"+i+"-"+(j+icout)+"");
+                                bord[i][j+icout]=bord[i][j];
                                 bord[i][j]=0;
                                 moves=true;
                     }
                 }
             }
         }
-        JxPush();
+         setTimeout(function(){
+             JxPush();
+            },spead+10);
     }
     function Topmove(){
         var icout;
@@ -271,15 +278,15 @@ var moves=false;
             for(var j=0;j<4;j++){
                 if(bord[j][i]==0){
                     icout++;
+                    icouts++;
                 }else{
-                    if(j-icout>0&&bord[j][i]==bord[j-icout-1][i]){
-                            console.log(j,i,icout,bord[j][i]);
+                    if(j-icouts>0&&bord[j][i]==bord[j-icouts-1][i]){
                                 PoTop=$("#num-"+j+"-"+i+"").position().top;
-                                function mov(i,j,icout){
+                                function mov(i,j,icouts){
                                     $("#num-"+i+"-"+j+"").animate({
-                                        top:PoTop-getTop(icout)-100
+                                        top:PoTop-getTop(icouts)-100
                                     },spead,function(){
-                                        i=(i-1-icout);
+                                        i=(i-1-icouts);
                                         var TNum=+$("#num-"+i+"-"+j+"").text()*2;
                                         $(this).remove();
                                         $("#num-"+i+"-"+j+"").text(TNum).css({
@@ -288,25 +295,27 @@ var moves=false;
                                         });
                                     }); 
                                 }
-                                mov(j,i,icout);
-                                bord[j-icout-1][i]=bord[j][i]*2;
+                                mov(j,i,icouts);
+                                bord[j-icouts-1][i]=bord[j][i]*2;
                                 bord[j][i]=0;
-                                icouts++;
+                                icout++;
                                 moves=true;
-                    }else if(j-icout-icouts!=j){
+                    }else if(j-icout!=j){
                                  PoTop=$("#num-"+j+"-"+i+"").position().top;
                                 $("#num-"+j+"-"+i+"").animate({
-                                    top:PoTop-getTop(icout+icouts)+20
+                                    top:PoTop-getTop(icout)+20
                                 },spead);
-                                $("#num-"+j+"-"+i+"").attr('id',"num-"+(j-icout-icouts)+"-"+i+"");
-                                bord[j-icout-icouts][i]=bord[j][i];
+                                $("#num-"+j+"-"+i+"").attr('id',"num-"+(j-icout)+"-"+i+"");
+                                bord[j-icout][i]=bord[j][i];
                                 bord[j][i]=0;
                                 moves=true;
                     }
                 }
             }
         }
-        JxPush();
+         setTimeout(function(){
+             JxPush();
+            },spead+10);
     }
     function Downmove(){
         var icout;
@@ -318,14 +327,15 @@ var moves=false;
             for(var j=3;j>=0;j--){
                 if(bord[j][i]==0){
                     icout++;
+                    icouts++;
                 }else{
-                    if(j+icout<3&&bord[j][i]==bord[j+icout+1][i]){
+                    if(j+icouts<3&&bord[j][i]==bord[j+icouts+1][i]){
                                 PoTop=$("#num-"+j+"-"+i+"").position().top;
-                                function mov(i,j,icout){
+                                function mov(i,j,icouts){
                                     $("#num-"+i+"-"+j+"").animate({
-                                        top:PoTop+getTop(icout)+100
+                                        top:PoTop+getTop(icouts)+100
                                     },spead,function(){
-                                        i=(i+1+icout);
+                                        i=(i+1+icouts);
                                         var TNum=+$("#num-"+i+"-"+j+"").text()*2;
                                         $(this).remove();
                                         $("#num-"+i+"-"+j+"").text(TNum).css({
@@ -334,25 +344,27 @@ var moves=false;
                                         });
                                     }); 
                                 }
-                                mov(j,i,icout);
-                                bord[j+icout+1][i]=bord[j][i]*2;
+                                mov(j,i,icouts);
+                                bord[j+icouts+1][i]=bord[j][i]*2;
                                 bord[j][i]=0;
-                                icouts++;
+                                icout++;
                                 moves=true;
-                            }else if(j+icout+icouts!=j){
+                            }else if(j+icout!=j){
                                  PoTop=$("#num-"+j+"-"+i+"").position().top;
                                 $("#num-"+j+"-"+i+"").animate({
-                                    top:PoTop+getTop(icout+icouts)-20
+                                    top:PoTop+getTop(icout)-20
                                 },spead);
                        
-                                $("#num-"+j+"-"+i+"").attr('id',"num-"+(j+icout+icouts)+"-"+i+"");
-                                bord[j+icout+icouts][i]=bord[j][i];
+                                $("#num-"+j+"-"+i+"").attr('id',"num-"+(j+icout)+"-"+i+"");
+                                bord[j+icout][i]=bord[j][i];
                                 bord[j][i]=0;
                                 moves=true;
                             }
                 }
             }
         }
-        JxPush();
+         setTimeout(function(){
+                JxPush();
+            },spead+10);
     }
 </script>
