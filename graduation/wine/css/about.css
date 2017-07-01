@@ -1,0 +1,80 @@
+@charset "UTF-8";
+/**
+ * About
+ * @authors Your Name (you@example.org)
+ * @date    2016-12-12 17:20:48
+ * @version $Id$
+ */
+main h3{
+	font-size: 36px;
+	line-height: 40px;
+	margin: 0 0 18px;
+	font-family: 'RopaSans';
+	color: #8e0000;
+}
+main h4{
+	font-size: 22px;
+	line-height: 24px;
+	margin: 0;
+	color: #000;
+	font-family: 'RopaSans';
+}
+main p{
+	font-size: 15px;
+	line-height: 27px;
+	margin: 15px 0 0;
+	color: #999;
+}
+
+@media screen and (max-width: 767px){
+	.about{
+		margin-bottom: 40px;
+	}
+	.about h4{
+		margin-top: 20px;
+	}
+}
+
+.news-list{
+	list-style: none;
+	padding: 0;
+}
+.news-list li{
+	font-size: 16px;
+	line-height: 22px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.news-list li + li{
+	margin-top: 16px;
+}
+.news-list a{
+	color: #999;
+	padding-left: 2em;
+	background: url(../images/icon6.png) left center no-repeat;
+	transition: .5s;
+}
+.news-list a:hover{
+	color: #000;
+	text-decoration: none;
+	background-position: 10px center;
+}
+
+main > h3{
+	margin-top: 40px;
+}
+
+.Ingredients{}
+.Ingredients > div{
+	padding-left: 65px;
+	margin-bottom: 20px;
+}
+.Ingredients b{
+	float: left;
+	font-size: 48px;
+	line-height: 52px;
+	margin: -5px 0 0 -50px;
+	font-family: 'RopaSans';
+	color: #8e0000;
+}

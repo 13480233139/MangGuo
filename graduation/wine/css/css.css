@@ -1,0 +1,251 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2016-12-12 09:35:28
+ * @version $Id$
+ */
+@font-face {
+  font-family: 'RopaSans';
+  src: url('../dist/fonts/RopaSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('../dist/fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+	font-family: 'Roboto' ,sans-serif;
+}
+body{
+	min-width: 320px;
+}
+
+/*顶部*/
+.top{
+	background-color: #eae089;
+}
+/*LOGO*/
+h1.logo{
+	font-size: 50px;
+	margin: 0;
+	padding: 15px 0 0;
+	float: left;
+	width: 130px;
+}
+h1.logo a{
+	font-family: 'RopaSans';
+	color: #8E0000;
+}
+h1.logo a:hover{
+	text-decoration: none;
+}
+@media screen and (max-width: 767px){
+	h1.logo{
+		margin-left: 10px;
+		padding-bottom: 0px;
+		font-size: 40px;
+		width: 120px;
+	}
+}
+/*搜索条*/
+.search{
+	float: right;
+	margin-top: 30px;
+	z-index: 1;
+	position: relative;
+}
+.search .form-group{
+	position: absolute;
+	top: 0;
+	right: 60px;
+}
+.search input{
+	width: 0;
+	background-color: #8e0000;
+	color: #fff;
+	height: 40px;
+	padding: 5px 0;
+	border: 0;
+	border-radius: 0;
+}
+.search button{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	font-size: 18px;
+	padding: 0;
+	text-align: center;
+	border: 0;
+}
+@media screen and (max-width: 767px){
+	.search button{
+		width: 30px;
+		height: 30px;
+	}
+}
+.search button:focus,
+.search button:hover,
+.search button:active,
+.search button:active:focus{
+	background-color: #fff;
+	box-shadow: none;
+	outline: none;
+}
+@media screen and (max-width: 767px){
+	.search{
+		margin-right: 10px;
+		width: 120px;
+		text-align: right;
+	}
+}
+/*header{
+	height: 90px;
+	overflow: hidden;
+}*/
+nav.navbar{
+	padding: 24px 0;
+	margin-bottom: 0;
+}
+nav.navbar-default{
+	background: none;
+	border: 0;
+}
+.nav{
+	font-size: 18px;
+	margin-left: 150px;
+}
+.nav a{
+	color: #000 !important;
+	padding: 10px 4px !important;
+	margin: 0 20px;
+	transition: .5s;
+}
+.nav li:hover a,
+.nav li.active a{
+	color: #8e0000 !important;
+	border-bottom: 2px solid #8e0000;
+	background: none !important;
+}
+@media screen and (max-width: 1199px) and (min-width: 992px){
+	.nav{
+		font-size: 16px;
+		margin-left: 80px;
+	}
+}
+@media screen and (max-width: 991px) and (min-width: 768px){
+	.nav{
+		font-size: 14px;
+		margin-left: 50px;
+	}
+	.nav a{
+		margin: 0 10px;
+	}
+}
+@media screen and (max-width: 767px){
+	.navbar-header{
+		text-align: center;
+		height: 50px;
+	}
+	.navbar-default .navbar-toggle{
+		margin:0;
+		display: inline-block;
+		float: none;
+		border: 0;
+	}
+	.navbar-default .navbar-toggle,
+	.navbar-default .navbar-toggle:focus,
+	.navbar-default .navbar-toggle:hover{
+		background-color: transparent;
+	}
+	.navbar-default .navbar-toggle .icon-bar{
+		height: 4px;
+		background-color: #000;
+	}
+	.navbar-collapse{
+		border-top: 1px solid #000 !important;
+		box-shadow: none;
+		margin: 0 10px;
+	}
+	.navbar-collapse ul{
+		margin:8px 0;
+	}
+	.nav{
+		font-size: 16px;
+		text-align: center;
+	}
+	.nav a{
+		color: #000 !important;
+	}
+	.nav li:hover a,
+	.nav li.active a{
+		border: 0;
+	}
+}
+/*主体*/
+main{
+	padding: 48px 0;
+}
+main h2{
+	font-size: 48px;
+	line-height: 52px;
+	margin: 0 0 48px;
+	color: #8e0000;
+	text-align: center;
+	font-family: 'RopaSans';
+}
+
+
+/*脚部*/
+footer{
+	background-color: #32383C;
+	padding: 48px 0 16px;
+	color: #fff;
+}
+footer h4{
+	font-size: 28px;
+	line-height: 30px;
+	margin: 0 0 28px;
+	font-family: 'RopaSans';
+}
+footer p{
+	color: rgb(135, 138, 140);
+	font-size: 15px;
+	line-height: 27px;
+	margin: 0;
+}
+footer p a{
+	color: rgb(135, 138, 140);
+}
+footer a{
+	transition: .5s;
+}
+footer a:hover,footer a.active{
+	color: #fff;
+	text-decoration: none;
+}
+footer .col-xs-6{
+	margin-bottom: 48px;
+}
+@media screen and (max-width: 479px){
+	footer .col-xs-6{
+		float: none;
+		clear: both;
+		width: auto;
+	}
+}
+.links{
+	font-size: 28px;
+}
+.links a{
+	color: #eae089;
+	display: inline-block;
+	width: 30px;
+	text-align: center;
+}
+.copyright{
+}

@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2016-12-13 10:51:45
+ * @version $Id$
+ */
+.pros{}
+.pros > div{
+	margin-bottom: 48px;
+}
+.pros a{
+	display: block;
+	overflow: hidden;
+}
+.pros img{
+	width: 100%;
+	transition: .5s;
+	transform: scale(1);
+}
+.pros img:hover{
+	transform: scale(1.2);
+}
+.pros h3{
+	font-size: 24px;
+	line-height: 26px;
+	margin: 12px 0 8px;
+	font-family: "RopaSans";
+	color: #8e0000;
+}
+.pros p{
+	font-size: 16px;
+	line-height: 28px;
+	margin: 0;
+	color: #999;
+}
