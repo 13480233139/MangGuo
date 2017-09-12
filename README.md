@@ -6,7 +6,7 @@
 
 [2048](https://cnyball.github.io/MangGuo/graduation/2048/index.html)
 
-单机版和网络版的俄罗斯方块
+单机版和网络版的俄罗斯方块(网络版玩不了)
 
 [俄罗斯方块](https://cnyball.github.io/MangGuo/graduation/ors/index.html)
 
