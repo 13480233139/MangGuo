@@ -1,4 +1,6 @@
-﻿# MangGuo
+﻿# MangGuo  
+##Js练习
+一个五子棋游戏
 
 [五子棋](https://cnyball.github.io/MangGuo/graduation/fine/index.html)
 
@@ -6,14 +8,6 @@
 
 [2048](https://cnyball.github.io/MangGuo/graduation/2048/index.html)
 
-单机版和网络版的俄罗斯方块(网络版玩不了)
+单机版和网络版的俄罗斯方块(网络版暂时没部署,使用nodeJs进行通讯)
 
 [俄罗斯方块](https://cnyball.github.io/MangGuo/graduation/ors/index.html)
-
-BOOTSTARP建筑网站
-
-[建筑](https://cnyball.github.io/MangGuo/graduation/team/index.html)
-
-BOOTSTARP啤酒网站
-
-[啤酒](https://cnyball.github.io/MangGuo/graduation/winer/index.html)
